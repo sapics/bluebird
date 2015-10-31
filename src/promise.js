@@ -75,6 +75,24 @@ function Promise(executor) {
     if (executor !== INTERNAL) {
         check(this, executor);
         this._resolveFromExecutor(executor);
+
+        if (isDebugging()) {
+            if (    executor !== CapturedTrace
+                 && executor !== Context
+                 && executor !== tryConvertToPromise) {
+                var _this = this;
+                setTimeout(function(){
+                    if (_this.isFulfilled() || _this.isRejected() ){
+                    } else {
+                        try{
+                            throw new Error('Promise not finished')
+                        }catch(e){
+                            console.error(resolver, e)
+                        }
+                    }
+                }, 30 * 1000);
+            }
+        }
     }
     this._promiseCreated();
 }
@@ -84,6 +102,13 @@ Promise.prototype.toString = function () {
 };
 
 Promise.prototype.caught = Promise.prototype["catch"] = function (fn) {
+    if (isDebugging()) {
+        try {
+            throw new Error('Promise DEBUG ERROR')
+        } catch(e) {
+            console.warn(e);
+        }
+    }
     var len = arguments.length;
     if (len > 1) {
         var catchInstances = new Array(len - 1),
