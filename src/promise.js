@@ -76,7 +76,7 @@ function Promise(executor) {
         check(this, executor);
         this._resolveFromExecutor(executor);
 
-        if (isDebugging()) {
+        if (__DEBUG__) {
             if (    executor !== CapturedTrace
                  && executor !== Context
                  && executor !== tryConvertToPromise) {
@@ -102,7 +102,7 @@ Promise.prototype.toString = function () {
 };
 
 Promise.prototype.caught = Promise.prototype["catch"] = function (fn) {
-    if (isDebugging()) {
+    if (__DEBUG__) {
         try {
             throw new Error('Promise DEBUG ERROR')
         } catch(e) {
