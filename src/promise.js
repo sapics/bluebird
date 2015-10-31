@@ -85,12 +85,12 @@ function Promise(executor) {
                     if (_this.isFulfilled() || _this.isRejected() ){
                     } else {
                         try{
-                            throw new Error('Promise not finished')
+                            throw new Error('Promise NOT FINISHED')
                         }catch(e){
-                            console.error(resolver, e)
+                            console.error(e, executor)
                         }
                     }
-                }, 30 * 1000);
+                }, 15 * 1000);
             }
         }
     }
@@ -102,13 +102,16 @@ Promise.prototype.toString = function () {
 };
 
 Promise.prototype.caught = Promise.prototype["catch"] = function (fn) {
+    /*
     if (__DEBUG__) {
         try {
             throw new Error('Promise DEBUG ERROR')
         } catch(e) {
+            console.warn(arguments[0]);
             console.warn(e);
         }
     }
+    */
     var len = arguments.length;
     if (len > 1) {
         var catchInstances = new Array(len - 1),
