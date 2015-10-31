@@ -234,7 +234,8 @@ function buildBrowser(sources, dir, tmpDir, depsRequireCode, minify, npmPackage,
                         minSrc = UglifyJS.minify(minSrc, {
                             comments: false,
                             compress: true,
-                            fromString: true
+                            fromString: true,
+                            mangle: true
                         }).code;
                         minSrc  = license + header + minSrc;
                         minWrite = fs.writeFileAsync(minDest, minSrc);
